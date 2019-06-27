@@ -1,0 +1,29 @@
+{
+  "name": "Prince of Winter",
+  "baseManaCost": 6,
+  "type": "MINION",
+  "heroClass": "SILVER",
+  "baseAttack": 4,
+  "baseHp": 4,
+  "rarity": "EPIC",
+  "description": "Battlecry: put a Frozen minion into your hand.",
+  "battlecry": {
+    "targetSelection": "MINIONS",
+    "spell": {
+      "class": "ReturnTargetToHandSpell",
+      "targetPlayer": "SELF",
+      "filter": {
+        "class": "AttributeFilter",
+        "attribute": "FROZEN",
+        "operation": "HAS"
+      }
+    },
+    
+  },
+  "attributes": {
+    "BATTLECRY": true
+  },
+  "collectible": true,
+  "set": "VERDANT_DREAMS",
+  "fileFormatVersion": 1
+}
