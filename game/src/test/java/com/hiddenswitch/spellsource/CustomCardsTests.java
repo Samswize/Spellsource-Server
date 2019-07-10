@@ -50,11 +50,54 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.spy;
 import static org.testng.Assert.*;
 
 public class CustomCardsTests extends TestBase {
+
+	@Test
+	public void testTheTimeKeeper() {
+		runGym(((context, player, opponent) -> {
+			receiveCard(context, player, "spell_fireball");
+			receiveCard(context, player, "minion_wisp");
+			receiveCard(context, player, "minion_neutral_test");
+			List<Card> playerHand = player.getHand();
+		}));
+	}
+
+	@Test
+	public void testKillShot() {
+		runGym((context, player, opponent) -> {
+			Minion friend1 = playMinionCard(context, player, "minion_wisp");
+			Minion friend2 = playMinionCard(context, player, "minion_wisp");
+			context.endTurn();
+			assertEquals(opponent.getHand().size(), 0);
+			putOnTopOfDeck(context, opponent, "minion_neutral_test");
+			putOnTopOfDeck(context, opponent, "minion_wisp");
+			playCard(context, opponent, "spell_kill_shot");
+			assertTrue(friend1.isDestroyed());
+			assertTrue(friend2.isDestroyed());
+			assertEquals(opponent.getHand().size(), 2);
+			assertEquals(opponent.getHand().get(0).getSourceCard().getCardId(), "minion_wisp");
+			assertEquals(opponent.getHand().get(1).getSourceCard().getCardId(), "minion_neutral_test");
+		});
+	}
+
+	@Test
+	public void testAvatarOfFreya() {
+		runGym((context, player, opponent) -> {
+			player.setMana(19);
+			playMinionCard(context, player, "minion_avatar_of_freya");
+			playCard(context, player, "spell_fireball", opponent.getHero());
+			assertEquals(player.getMinions().get(1).getSourceCard().getCardId(), "token_treant_rush");
+			playCard(context, player, "spell_fireball", opponent.getHero());
+			assertEquals(player.getMinions().get(2).getSourceCard().getCardId(), "token_treant_rush");
+			assertEquals(player.getMinions().size(), 3);
+			assertEquals(player.getMana(), 8);
+		});
+	}
 
 	@Test
 	public void testKorvasBloodthorn() {

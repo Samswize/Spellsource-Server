@@ -14,21 +14,19 @@
         "target": "FRIENDLY_PLAYER",
         "trigger": {
           "eventTrigger": {
-            "class": "MinionDeathTrigger",
-            "targetPlayer": "OPPONENT"
+            "class": "MinionDeathTrigger"
           },
           "spell": {
             "class": "CastAfterSequenceSpell",
             "spell": {
-              "class": "DrawCardSpell",
-              "value": 1
+              "class": "DrawCardSpell"
             }
           }
         }
       },
       {
         "class": "DamageSpell",
-        "target": "ENEMY_MINIONS",
+        "target": "ALL_MINIONS",
         "value": 1
       },
       {
