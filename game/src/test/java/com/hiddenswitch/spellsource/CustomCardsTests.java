@@ -58,12 +58,30 @@ import static org.testng.Assert.*;
 public class CustomCardsTests extends TestBase {
 
 	@Test
+	public void testTimeDialationWIP() {
+		runGym((context, player, opponent) -> {
+
+		});
+	}
+
+	@Test
 	public void testTheTimeKeeper() {
 		runGym(((context, player, opponent) -> {
-			receiveCard(context, player, "spell_fireball");
-			receiveCard(context, player, "minion_wisp");
-			receiveCard(context, player, "minion_neutral_test");
+			Card friend1 = receiveCard(context, player, "spell_fireball");
+			Card friend2 = receiveCard(context, player, "minion_wisp");
+			Card friend3 = receiveCard(context, player, "minion_neutral_test");
 			List<Card> playerHand = player.getHand();
+			playMinionCard(context, player, "minion_the_time_keeper");
+			playMinionCard(context, player, friend2);
+			context.endTurn();
+			Minion enemy = playMinionCard(context, opponent, "minion_wisp");
+			context.endTurn();
+			playCard(context, player, friend1, enemy);
+			playMinionCard(context, player, friend3);
+			assertEquals(player.getHand().size(), 0);
+			context.endTurn();
+			context.endTurn();
+			assertEquals(player.getHand(), playerHand);
 		}));
 	}
 
