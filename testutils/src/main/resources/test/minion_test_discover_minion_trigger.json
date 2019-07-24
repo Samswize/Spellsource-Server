@@ -1,0 +1,23 @@
+{
+  "name": "Discover Trigger for Minion",
+  "baseManaCost": 2,
+  "type": "MINION",
+  "heroClass": "ANY",
+  "baseAttack": 2,
+  "baseHp": 2,
+  "rarity": "FREE",
+  "description": "Whenever you discover a minion, add a Lunstone to your hand.",
+  "collectible": true,
+  "set": "TEST",
+  "trigger": {
+    "eventTrigger": {
+      "class": "DiscoverTrigger",
+      "cardType": "MINION"
+    },
+    "spell": {
+      "class": "ReceiveCardSpell",
+      "card": "spell_lunstone"
+    }
+  },
+  "fileFormatVersion": 1
+}

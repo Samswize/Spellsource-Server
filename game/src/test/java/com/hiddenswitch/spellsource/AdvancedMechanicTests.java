@@ -639,4 +639,34 @@ public class AdvancedMechanicTests extends TestBase {
 			}
 		}));
 	}
+
+	@Test
+	public void testDiscoverTrigger() {
+		runGym(((context, player, opponent) -> {
+			playCard(context, player, "minion_test_discover_minion_trigger");
+
+			overrideDiscover(context, player, discoverActions -> {
+				assertEquals(discoverActions.size(), 3);
+				assertEquals(player.getDiscoverZone().size(), 3);
+				return discoverActions.get(0);
+			});
+
+			playCard(context, player, "spell_test_discover1");
+			assertEquals(player.getHand().size(), 2);
+			assertEquals(player.getHand().get(1).getCardId(), "spell_lunstone");
+		}));
+
+		runGym(((context, player, opponent) -> {
+			playCard(context, player, "minion_test_discover_spell_trigger");
+
+			overrideDiscover(context, player, discoverActions -> {
+				assertEquals(discoverActions.size(), 3);
+				assertEquals(player.getDiscoverZone().size(), 3);
+				return discoverActions.get(0);
+			});
+
+			playCard(context, player, "spell_test_discover1");
+			assertEquals(player.getHand().size(), 1);
+		}));
+	}
 }
